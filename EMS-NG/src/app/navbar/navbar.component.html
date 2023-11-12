@@ -1,0 +1,14 @@
+<div class="nav">
+    <div class="date">
+        <p id="dateDisplay">{{ currentDate }}</p>
+    </div>
+    <div class="about">
+        <a routerLink="/landing">Home</a>
+        <a routerLink="/about">About</a>
+        <!-- <a routerLink="/services">Services</a> -->
+    </div>
+    <div class="accountIcon">
+        <a *ngIf="isUserLoggedIn && isLoginPage" routerLink="/signup">Signup</a>
+        <a *ngIf="isUserLoggedIn && !isLoginPage" routerLink="/signin">Logout</a>
+    </div>
+</div>

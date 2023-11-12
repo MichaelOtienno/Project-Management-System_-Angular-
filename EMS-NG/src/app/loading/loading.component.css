@@ -1,0 +1,55 @@
+.loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .letter {
+    font-size: 48px;
+    color: aliceblue;
+    opacity: 0;
+    animation: dropIn 0.5s ease-in-out forwards;
+    margin: 30px;
+  }
+  
+  @keyframes dropIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-100px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  #letterI {
+    animation-delay: 0.5s;
+  }
+  
+  #letterC {
+    animation-delay: 1s;
+  }
+  
+  #letterH {
+    animation-delay: 1.5s;
+  }
+  
+  #letterA {
+    animation-delay: 2s;
+  }
+  
+  #letterE {
+    animation-delay: 2.5s;
+  }
+  
+  #letterL {
+    animation-delay: 3s;
+  }
+  

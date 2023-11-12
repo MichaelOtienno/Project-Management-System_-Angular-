@@ -1,0 +1,146 @@
+#            *********   users   ******************
+
+
+post http://localhost:4600/user/register
+Content-Type: application/json
+
+{
+    "userName":"Michae Otieno",
+    "email":"mikevcbum9@gmail.com",
+    "password":"379326",
+    "phone_no":"0708139390"
+}
+
+
+###
+#login user
+POST http://localhost:4600/user/login
+Content-Type: application/json
+
+{
+    "email":"michealvenum007@gmail.com",
+    "password":"mike123457"
+
+}
+
+
+###
+#get all user
+
+get http://localhost:4600/user/
+token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI4MTMzNWNmYS0wNDVmLTQwMmUtYWFhNi1jMWUxOGQ1NmNhMzUiLCJ1c2VyTmFtZSI6Ik1pY2hhZSBPdGllbm8iLCJlbWFpbCI6Im1pa2V2Y2J1bTlAZ21haWwuY29tIiwiRW1haWxTZW50IjpmYWxzZSwicm9sZSI6ImVtcGxveWVlIiwiV2VsY29tZWQiOnRydWUsImlhdCI6MTY5OTQzMzkzMSwiZXhwIjoxNjk5NDM3NTMxfQ.k1_V68WTUi5OQS3TGZWas7gzUSd5CQ2tu5UDO6XFTyI
+
+
+###
+#check user details
+GET http://localhost:4600/user/check_user_details
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI3MWU0OWQ3Mi0yNjIyLTRiZWItOTQxYy1kMDZiZGJkZjhkMzciLCJ1c2VyTmFtZSI6Ik1pY2hhZWwgT3RpZW5vIiwiZW1haWwiOiJtaWNoZWFsdmVudW0wMDdAZ21haWwuY29tIiwiaXNBZG1pbiI6ZmFsc2UsIkFzc2lnbmVkUHJvamVjdElEIjpudWxsLCJFbWFpbFNlbnQiOmZhbHNlLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTg4NzU0NTIsImV4cCI6MTY5ODg3OTA1Mn0.qsQi-r_jZVoAihToyO2HRNOOEZttROjDuBWIm1-lofA
+
+###
+#fetch All Users
+
+get http://localhost:4600/project/getUsers
+
+
+#           ************* project **********
+
+###
+#admin assign project
+
+POST http://localhost:4600/project/assignProject
+Content-Type: application/json
+
+{
+   
+    "projectName": "BackgroundSerices",
+    "projectDescription": "build company chatbot",
+    "endDate": "2023-11-9",
+    "AssignedUserEmail": "cylvonnen@gmail.com",  
+    "AssignedUserName": "Joshua Ochieng"  
+}
+
+###
+#delete project
+DELETE  http://localhost:4600/project/deleteProject
+Content-Type: application/json
+
+{
+   
+    "projectID":"14e6293d-4a5c-4c5a-883f-4abb7d631d66"
+   
+}
+
+
+###
+#get all projects
+get  http://localhost:4600/project/
+
+###
+#get single project
+get  http://localhost:4600/project/singleProject
+Content-Type: application/json
+
+{
+   
+    "AssignedUserEmail":"mikvenu9@gmail.com"
+   
+}
+
+###
+#update completed project
+post http://localhost:4600/project/updateProject
+Content-Type: application/json
+
+{
+   
+    "projectID":"1da4856b-edde-47f2-90d4-603913e26b7f"
+   
+}
+
+
+
+###
+#user updates project status
+
+post http://localhost:4600/project/projectStatus
+Content-Type: application/json
+
+{
+   
+    "AssignedUserEmail":"dankinyi98@gmail.com",
+    "NewStatus":"pending"
+   
+}
+
+###
+#get project status
+get http://localhost:4600/project/getStatus
+Content-Type: application/json
+
+{
+   
+    "AssignedUserEmail":"dankinyi98@gmail.com"
+   
+}
+
+###
+#update project details
+
+post http://localhost:4600/project/changeProject
+Content-Type: application/json
+
+{
+    "projectID":"0ee161c0-c081-44c1-957a-649fd0c1460a",
+    "projectName": "Teac to",
+    "projectDescription": "help others",
+    "endDate": "2023-11-14",
+    "AssignedUserEmail": "sandra.chee@thejitu.com",  
+    "AssignedUserName": "sandra chege"  
+
+
+
+}
+
+
+
+

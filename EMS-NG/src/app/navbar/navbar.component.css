@@ -1,0 +1,96 @@
+
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+    height: 40px;
+    background-color: rgb(72, 114, 179);
+    color: #fff;
+}
+.nav a{
+    text-decoration: none;
+    color: #fff;
+}
+/* date */
+.dashboard .nav .date{
+    font-size: 1.3rem;
+}
+
+/* user profile */
+.dashboard .accountIcon{
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 10px;
+}
+.dashboard .accountIcon .p-icon{
+    font-size: 40px;
+}
+.dashboard .accountIcon .accountDropdown a{
+    text-decoration: none;
+    font-size: 1.3rem;
+    
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: rgb(238, 235, 235);
+    width: 300px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    /* z-index: 1; */
+    transform: translateY(-6px);
+    transition: all 0.4s ease-in-out;
+    margin-left: -40px;
+    margin-top: 0px;
+    
+     
+}
+
+.accountDropdown:hover .dropdown-content {
+    display: block;
+    width: auto; 
+    
+    
+    
+   
+}
+.dropdown-content a {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: black;
+    transition: all 0.4s ease-in-out;
+}
+.dropdown-content a:hover {
+    background-color: #fff;
+    color: black;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+    border-radius: 5px;
+}
+
+/* about */
+.about{
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 40px;
+}
+.about a{
+    text-decoration: none;
+    color: white;
+    transition: all 0.4s ease-in-out;
+   
+}
+.about a:hover{
+    background-color: #fff;
+    color: rgb(72, 114, 179);
+    border-radius: 25px;
+    padding: 5px;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+ 
+    
+
+}
