@@ -11,17 +11,27 @@
 
         <div class="buttonss">
             <button class="side" (click)="addProject()">Add Project</button>
+            <button class="side" (click)="fetchProjects()">All </button>
             <button class="side" (click)="viewCompletedProjects()">Completed </button>
             <button class="side" (click)="viewIncompleteProjects()">Incomplete </button>
         </div>
     </div>
 
     <div class="project-dashboard">
-        <button style="display: none;" (click)="fetchProjects()">Fetch Projects</button>
-
         <!-- project cards -->
+        <div class="buttonsss">
+            
+            <p class="top">All<br> <span>23</span></p>
+            <p class="top">Completed <br><span style="color:#0056b3;" > 45</span></p>
+            <p class="top">Incomplete<br> <span style="color: red;" >34</span></p>
+            <p class="top">Search <span><input type="text" style="border: solid 1px #a09e9e;"></span></p>
+        </div>
 
         <div *ngIf="filteredProjects" class="card-container">
+            <div *ngIf="noneCompleted" class="noneCompleted">
+                <p>None of the projects are Completed</p>
+    
+              </div>
             <div *ngFor="let project of filteredProjects" class="card" (click)="projectDetails(project)">
                 <h4>{{ project.projectName }}</h4>
                 <p style="font-size: medium;"> <span style="font-weight: bold;">Assigned User: </span>{{
@@ -29,7 +39,7 @@
                 <p style="font-size: medium;"><span style="font-weight: bold;">End Date: </span>{{
                     formatDate(project.endDate) }}</p>
                 <!-- <p>Assigned User Email: {{ project.AssignedUserEmail }}</p> -->
-                <p [style.color]="isCompleted ? 'red' : 'green'"><span style="font-weight: bold;">Status: </span>{{
+                <p [style.color]="isCompleted ? '#0056b3' : '#0056b3'"><span style="font-weight: bold;">Status: </span>{{
                     project.projectStatus }}</p>
                 <!-- <p>Description: {{ project.projectDescription }}</p> -->
                 <p style="display: none;">ID:{{project.projectID}}</p>
@@ -43,6 +53,7 @@
 <div *ngIf="showProjectForm" class="project-form-container project-form-transition">
     <div class="project-form project-form-transition">
         <form id="project-form" (ngSubmit)="submitProjectForm()">
+            <p style="margin: 10px; color: blue;">{{successAssign}}</p>
             <p style="margin: 10px; color: blue;">{{updateResponse}}</p>
             <p [style.color]="isWhichError ? 'blue' : 'red'">{{errorResponse}}</p>
             <div class="form-group">

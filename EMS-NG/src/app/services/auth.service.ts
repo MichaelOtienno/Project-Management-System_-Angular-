@@ -12,6 +12,7 @@ export class AuthService {
 
 
   constructor(private http: HttpClient, private router: Router) { }
+  
   async login(userLogin: userlogin, redirectCallback: () => void) {
     try {
       // console.log(userLogin);

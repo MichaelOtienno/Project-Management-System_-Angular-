@@ -19,6 +19,9 @@ BEGIN
     END
 END
 
-exec registerUser
+select * from Users
+
+-- exec registerUser
+insert into Users (userID,userName,email,password,phone_no) values ('fhfhh333','Michae','micheal@gmail.com','mike','0702337889')
 
 

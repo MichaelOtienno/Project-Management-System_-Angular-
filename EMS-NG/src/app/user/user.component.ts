@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -8,23 +9,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
+  constructor(private userService:UserService,private http :HttpClient){}
+  //projects
   projects: any[] = [];
   filteredProjects: any[] = [];
+  noneCompleted:boolean = false
 
+  //forms/project card
   employeeEmail: string = '';
   statusError: string = '';
   currentStatus: string = '';
   showButton: boolean = true;
   isCompleted: boolean = true;
-  isCardVisble:boolean = true;
+  isCardVisble: boolean = true;
 
 
-  time: any;
   userEmail!: string;
   user_email: any;
+  freeEmployee: string = ''
 
+  //time aspects
+  days: number = 0;
+  hours: number = 0;
+  minutes: number = 0;
+  seconds: number = 0;
+  time: any;
+  countdown: any = ''
+  finishTime: string = ''
+  private countdownInterval: any;
+  countdownStopped: boolean = false;
 
-  constructor(private http: HttpClient) { }
 
   fetchProjects() {
     const apiUrl = 'http://localhost:4600/project';
@@ -36,19 +50,18 @@ export class UserComponent implements OnInit {
         this.filteredProjects = this.projects.filter(project => {
           return project.AssignedUserEmail === user_email && project.projectStatus !== 'completed';
         });
-  
 
         this.filteredProjects.forEach(project => {
-
-          let time = project.projectStatus
-          this.time = time;
-          console.log(time);
-
           let userEmail = project.AssignedUserEmail
-          if(this.time == "completed"){
+
+          if (this.time == "completed") {
             this.showButton = false
           }
-
+          let time = project.projectStatus
+          this.time = time;
+        
+          this.finishTime = project.endDate
+          this.calculateCountdown()
         })
 
       },
@@ -59,6 +72,34 @@ export class UserComponent implements OnInit {
       );
     }
   }
+
+  // fetchProjects(userEmail: string) {
+  //   this.userService.fetchProjects(userEmail).subscribe(
+  //     (data: any) => {
+  //       this.projects = data;
+  //       this.filteredProjects = this.projects.filter(project => {
+  //         return project.AssignedUserEmail === userEmail && project.projectStatus !== 'completed';
+  //       });
+
+  //       this.filteredProjects.forEach(project => {
+  //         if (this.time == 'completed') {
+  //           this.showButton = false;
+  //         }
+
+  //         let time = project.projectStatus;
+  //         this.time = time;
+  //         console.log(time);
+
+  //         this.finishTime = project.endDate;
+  //         console.log(this.finishTime);
+  //         this.calculateCountdown();
+  //       });
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       console.error(error);
+  //     }
+  //   );
+  // }
 
 
   formatDate(endDate: string) {
@@ -71,83 +112,88 @@ export class UserComponent implements OnInit {
     return formattedEndDate.toLocaleDateString('en-US');
   }
 
+
   start() {
-    const user_email = localStorage.getItem('user_email');
-    this.isCompleted = false
-    this.time = "ongoing"
-    let passStatus = this.time
-    console.log(passStatus);
-
-    let passEmail = user_email
-    console.log(passEmail);
-
-    const apiUrl = 'http://localhost:4600/project/projectStatus';
-    const postData = {
-      AssignedUserEmail: passEmail,
-      NewStatus: passStatus
-    }
-    this.http.post(apiUrl, postData).subscribe(
+    this.userService.startProject().subscribe(
       (data: any) => {
-        console.log(data);
-        console.log("passed");
-
-
       },
       (error: HttpErrorResponse) => {
         console.error(error);
       }
-
     );
-    this.fetchProjects()
-
+    this.fetchProjects();
   }
 
 
   complete() {
-    const user_email = localStorage.getItem('user_email');
-    this.isCompleted = true
-    this.time = "completed"
-    let passStatus = this.time
-    let passEmail = user_email
-    
-    const apiUrl = 'http://localhost:4600/project/projectStatus';
-
-    const postData = {
-      AssignedUserEmail: passEmail,
-      NewStatus: passStatus
-    };
-    this.http.post(apiUrl, postData).subscribe(
+    this.userService.completeProject().subscribe(
       (data: any) => {
-        console.log(data);
-        console.log("passed");
-
       },
       (error: HttpErrorResponse) => {
         console.error(error);
       }
-
     );
+
     this.showButton = false;
     this.isCardVisble = false;
-    this.fetchProjects()
-    passStatus
-
+    this.fetchProjects();
+    this.freeEmployee = '';
+    this.countdownStopped = true;
+    this.noneCompleted = true
   }
+  
 
-
-  ngOnInit() {
-    
-
+  ngOnInit(): void{
     const user_email = localStorage.getItem('user_email');
     if (user_email) {
       this.employeeEmail = user_email;
       this.fetchProjects();
     }
-
+    this.countdownInterval = setInterval(() => {
+      this.calculateCountdown();
+    }, 1000);
   }
 
 
+  ngOnDestroy() {
+
+    clearInterval(this.countdownInterval);
   }
+
+
+  calculateCountdown(): void {
+    //stop countdown
+    if (this.countdownStopped) {
+      this.countdown = '0d 0h 0m 0s';
+      this.days = 0;
+      this.hours = 0;
+      this.minutes = 0;
+      this.seconds = 0;
+      return;
+    }
+    const currentDate = new Date();
+    const endDates = new Date(this.finishTime)
+    if (isNaN(endDates.getTime())) {
+      // console.error("Invalid finishTime:", this.finishTime);
+      return;
+    }
+
+    const timeDifference = endDates.getTime() - currentDate.getTime();
+
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+    this.countdown = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+    this.days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    this.hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    this.minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+    this.seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+  }
+}
 
 
 

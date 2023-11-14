@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { SupervisorService } from '../services/supervisor.service';
+import { count } from 'rxjs';
 
 @Component({
   selector: 'app-supervisor',
@@ -37,7 +38,7 @@ export class SupervisorComponent {
   employeeEmails: { email: string; name: string }[] = [];
 
 
-  //error responses
+  //error/update responses
   errorResponse!: any
   mainError!: any
   updateResponse!: any
@@ -47,6 +48,8 @@ export class SupervisorComponent {
   isWhichError: boolean = false
   filteredEmployeee!: string
   successResponse: string = ''
+  successAssign: string = ''
+  noneCompleted:boolean = false
 
   //authentication
   email: string = '';
@@ -59,6 +62,7 @@ export class SupervisorComponent {
   constructor(private http: HttpClient, private supervisorService: SupervisorService) { }
 
   //fetch all projects
+ 
   fetchProjects() {
     this.supervisorService.fetchProjects().subscribe((data: any) => {
       this.projects = data;
@@ -70,7 +74,6 @@ export class SupervisorComponent {
           projectStatus: project.projectStatus
         };
       });
-      console.log(this.userInformation);
       this.perfectMatch = this.userInformation
       this.perfectMatch = this.userInformation.map(user => user.AssignedUserEmail);
 
@@ -78,9 +81,11 @@ export class SupervisorComponent {
   }
 
   //view completed projects
-
   viewCompletedProjects() {
     this.filteredProjects = this.projects.filter((project) => project.projectStatus == 'completed');
+    
+  //  this.noneCompleted = true
+    
   }
 
   //get unassigned users
@@ -92,6 +97,7 @@ export class SupervisorComponent {
   //view uncompleted projects
   viewIncompleteProjects() {
     this.filteredProjects = this.projects.filter((project) => project.projectStatus !== 'completed');
+    
   }
 
   //show add project form
@@ -190,7 +196,7 @@ export class SupervisorComponent {
       .subscribe(
         (data: any) => {
           if (data && Array.isArray(data.users)) {
-            console.log(data);
+            // console.log(data);
 
             this.employeeEmails = data.users
               .filter((user: { role: string; email: string; }) => user.role !== 'admin' && !this.perfectMatch.includes(user.email))
@@ -244,19 +250,18 @@ export class SupervisorComponent {
     this.supervisorService.assignProject(projectData).subscribe(
       (response: any) => {
         this.fetchProjects()
-        this.errorResponse = 'details captured successfully'
+        this.successAssign = 'project assigned successfully'
         setTimeout(() => {
           this.errorResponse = '';
           this.showProjectForm = false;
-
-        }, 3000);
+        }, 2500);
       },
       (error) => {
         this.errorResponse = this.supervisorService.errorResponses();
         setTimeout(() => {
           this.errorResponse = ''
 
-        }, 3000);
+        }, 2500);
         this.updateResponse = this.supervisorService.updateResponses();
 
         console.error('Error updating project:', error);
@@ -292,7 +297,7 @@ export class SupervisorComponent {
           this.showAcceptanceForm = false
           setTimeout(() => {
             this.fetchProjects()
-          }, 3000);
+          }, 2500);
 
         },
         (error) => {
@@ -318,6 +323,12 @@ export class SupervisorComponent {
       this.loginError = '';
     }, delay);
   }
+
+  search(){
+    
+
+  }
+ 
 
 }
 

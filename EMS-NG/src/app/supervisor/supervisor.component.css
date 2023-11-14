@@ -56,6 +56,8 @@
     /* margin-top: 15px; */
     padding: 10px;
   }
+
+
   .side{
     width: 58%;
     border-radius: 5px;
@@ -73,6 +75,7 @@
     transform: translateY(3px);
     color: white;
   }
+
 /* logo design */
 .logswrap{
   border: solid 1px;
@@ -122,6 +125,26 @@
   background-color: #0056b3;
 
 }
+
+
+/* supervisor dashboard */
+.buttonsss{
+  display: flex;
+}
+.top{
+  width: 28%;
+  border-radius: 5px;
+  padding: 10px;
+  transition: all 0.3s ease-in-out;
+  outline: none;
+  border: solid 1px;
+  border-color: #a09e9e;
+  margin: 10px;
+  text-align: center;
+  font-size: larger;
+  font-weight: bold;
+  
+}
   
   .project-dashboard {
     width: 80%; 
@@ -138,8 +161,12 @@
     overflow-y: auto;
     height: 88vh;
     padding: 10px;
-    /* border: solid 1px;
-    border-color: #a09e9e; */
+    border-top: solid 1px;
+    border-color: #a09e9e;
+  }
+  .noneCompleted{
+    font-size: x-large;
+    font-weight: bolder;
   }
   
   .card {
@@ -149,7 +176,7 @@
     min-width:170px;
     min-height:150px; 
     max-width: 300px;
-    max-height: 300px;
+    max-height: 200px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
